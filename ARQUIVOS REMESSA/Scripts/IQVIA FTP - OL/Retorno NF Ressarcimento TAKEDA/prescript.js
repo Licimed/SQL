@@ -1,0 +1,1 @@
+log("*PRE-*TAK*OUT* Aqui se iniciou o Pré Processamento arquivo NF RESSARCIMENTO.");

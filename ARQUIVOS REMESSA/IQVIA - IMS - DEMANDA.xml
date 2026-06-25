@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<LAYOUTS MODULO="C" QUANTIDADE="1" TIPO="Remessa">
+  <LAYOUT PROFUNDIDADE="3" ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+    <TITULO><![CDATA[IQVIA - IMS - DEMANDA]]></TITULO>
+    <LINHAS QUANTIDADE="3">
+      <LINHA ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="S" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+        <TITULO><![CDATA[CLIENTES]]></TITULO>
+        <FILTRO><![CDATA[EMP.CODEMP=CAB.CODEMP
+AND TOP.CODTIPOPER = CAB.CODTIPOPER
+AND TOP.DHALTER = CAB.DHTIPOPER
+AND CAB.TIPMOV = 'V'
+AND CAB.STATUSNFE = 'A'
+AND STATUSNOTA = 'L'
+AND CAB.CODPARC<>1
+AND CAB.CODEMP IN (1)
+AND TOP.GOLSINAL = -1
+AND TO_CHAR(CAB.DTNEG,'DDMMYYYY') = to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+        <NOMEARQ><![CDATA['C0181'+Dados_Disp.MESTITULO+'.'+Dados_Disp.DIAMES]]></NOMEARQ>
+        <COMSELECT><![CDATA[select distinct to_char(cab.dtneg,'DDMMYYYY') as dtini, to_char(cab.dtneg,'DDMMYYYY') as dt_arq,
+substr(emp.RAZAOSOCIAL,1,30) as razaosocial,emp.CGC,
+'M'||lpad(extract(month from cab.dtneg),2,'0') as MESTITULO, 
+'D'||lpad(extract(DAY from cab.dtneg),2,'0') as diames
+from TGFCAB CAB,TSIEMP EMP, TGFTOP TOP]]></COMSELECT>
+        <COLUNAS>
+          <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+            <CAMPO><![CDATA[1]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="2" TAMANHO="1" TIPO="C">
+            <CAMPO><![CDATA[0]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="3" TAMANHO="4" TIPO="C">
+            <CAMPO><![CDATA[0181]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="4" TAMANHO="30" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.RAZAOSOCIAL]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="5" TAMANHO="14" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.CGC]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="6" TAMANHO="8" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.DTINI]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="7" TAMANHO="8" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.DTINI]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="8" TAMANHO="8" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.DT_ARQ]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="9" TAMANHO="1" TIPO="C">
+            <CAMPO><![CDATA[1]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="10" TAMANHO="271" TIPO="E">
+            <CAMPO><![CDATA['']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="11" TAMANHO="9" TIPO="E">
+            <CAMPO><![CDATA['imsbrcli1']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="12" TAMANHO="2" TIPO="E">
+            <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+          </COLUNA>
+        </COLUNAS>
+        <LINHAS QUANTIDADE="2">
+          <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[DESCRIÇÃO]]></TITULO>
+            <FILTRO><![CDATA[CAB.TIPMOV IN ('V','D')
+AND CAB.STATUSNFE = 'A'
+AND STATUSNOTA = 'L'
+AND CAB.CODPARC<>1
+AND CAB.CODEMP IN (1)
+AND TOP.GOLSINAL = -1
+AND to_char(cab.dtneg,'DDMMYYYY') = to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+            <COMSELECT><![CDATA[select distinct cab.codparc,PAR.CGC_CPF,substr(PAR.NOMEPARC,1,40) as nomeparc,
+substr(par.razaosocial,1,40) as razaosocial,
+substr(end.tipo||end.nomeend||', '||CASE WHEN PAR.NUMEND IS NULL THEN 'S/N' ELSE TO_CHAR(PAR.NUMEND) END,1,70) AS ENDERECO,
+substr(PAR.COMPLEMENTO,1,20) as complemento,PAR.CEP,SUBSTR(CID.NOMECID,1,30) AS CIDADE,UFS.UF,PAR.TELEFONE,
+PAR.FAX,TO_CHAR(PAR.DTCAD,'DDMMYYYY') as DTCAD,PAR.EMAIL,
+to_char(cab.dtneg,'DDMMYYYY') as dtini, to_char(CAB.DTNEG,'DDMMYYYY') as dt_arq,emp.CGC 
+from TGFCAB CAB
+JOIN TSIEMP EMP ON EMP.CODEMP=CAB.CODEMP
+JOIN TGFPAR PAR ON PAR.CODPARC=CAB.CODPARC 
+JOIN TSIEND END ON END.CODEND=PAR.CODEND
+JOIN TSICID CID ON CID.CODCID=PAR.CODCID
+JOIN TSIUFS UFS ON UFS.CODUF=CID.UF
+JOIN TGFTOP TOP ON TOP.CODTIPOPER=CAB.CODTIPOPER AND TOP.DHALTER=CAB.DHTIPOPER]]></COMSELECT>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[2]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="14" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.CODPARC]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="14" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.CGC_CPF]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[1]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="40" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.NOMEPARC]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="6" TAMANHO="40" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.RAZAOSOCIAL]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[1]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="8" TAMANHO="70" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.ENDERECO]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="9" TAMANHO="20" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.COMPLEMENTO]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="10" TAMANHO="8" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.CEP]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="11" TAMANHO="30" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.CIDADE]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="12" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.UF]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="13" TAMANHO="20" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.TELEFONE]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="14" TAMANHO="20" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.FAX]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="15" TAMANHO="8" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.DTCAD]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="16" TAMANHO="35" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.EMAIL]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="17" TAMANHO="25" TIPO="E">
+                <CAMPO><![CDATA['']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="18" TAMANHO="5" TIPO="E">
+                <CAMPO><![CDATA['']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="19" TAMANHO="1" TIPO="E">
+                <CAMPO><![CDATA['C']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="20" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+          </LINHA>
+          <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[TRAILLER]]></TITULO>
+            <FILTRO><![CDATA[CAB.TIPMOV = 'V'
+AND CAB.STATUSNFE = 'A'
+AND STATUSNOTA = 'L'
+AND CAB.CODPARC<>1
+AND CAB.CODEMP IN (1)
+AND TOP.GOLSINAL = -1
+AND to_char(cab.dtneg,'DDMMYYYY') =  to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+            <COMSELECT><![CDATA[select count(*) as totreg
+from TGFCAB CAB
+JOIN TSIEMP EMP ON EMP.CODEMP=CAB.CODEMP
+JOIN TGFPAR PAR ON PAR.CODPARC=CAB.CODPARC 
+JOIN TSIEND END ON END.CODEND=PAR.CODEND
+JOIN TSICID CID ON CID.CODCID=PAR.CODCID
+JOIN TSIUFS UFS ON UFS.CODUF=CID.UF
+JOIN TGFTOP TOP ON TOP.CODTIPOPER=CAB.CODTIPOPER AND TOP.DHALTER=CAB.DHTIPOPER]]></COMSELECT>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[3]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[0]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="4" TIPO="C">
+                <CAMPO><![CDATA[0181]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="8" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.TOTREG]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="200" TIPO="E">
+                <CAMPO><![CDATA['']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="6" TAMANHO="132" TIPO="E">
+                <CAMPO><![CDATA['']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="9" TIPO="E">
+                <CAMPO><![CDATA['imsbrcli3']]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+          </LINHA>
+        </LINHAS>
+      </LINHA>
+      <LINHA ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="S" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+        <TITULO><![CDATA[PRODUTOS]]></TITULO>
+        <FILTRO><![CDATA[EMP.CODEMP=CAB.CODEMP
+AND TOP.CODTIPOPER = CAB.CODTIPOPER
+AND TOP.DHALTER = CAB.DHTIPOPER
+AND CAB.TIPMOV = 'V'
+AND CAB.STATUSNFE = 'A'
+AND STATUSNOTA = 'L'
+AND CAB.CODPARC<>1
+AND CAB.CODEMP IN (1)
+AND TOP.GOLSINAL = -1
+AND TO_CHAR(CAB.DTNEG,'DDMMYYYY') = to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+        <NOMEARQ><![CDATA['P0181'+Dados_Disp.MESTITULO+'.'+Dados_Disp.DIAMES]]></NOMEARQ>
+        <COMSELECT><![CDATA[select distinct to_char(cab.dtneg,'DDMMYYYY') as dtini, to_char(sysdate, 'DDMMYYYY') as dt_arq,
+substr(emp.RAZAOSOCIAL,1,30) as razaosocial,emp.CGC,
+'M'||lpad(extract(month from cab.dtneg),2,'0') as MESTITULO, 
+'D'||lpad(extract(DAY from cab.dtneg),2,'0') as diames
+from TGFCAB CAB,TSIEMP EMP, TGFTOP TOP]]></COMSELECT>
+        <COLUNAS>
+          <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+            <CAMPO><![CDATA[7]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="2" TAMANHO="1" TIPO="C">
+            <CAMPO><![CDATA[0]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="3" TAMANHO="4" TIPO="C">
+            <CAMPO><![CDATA[0181]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="4" TAMANHO="30" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.RAZAOSOCIAL]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="5" TAMANHO="14" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.CGC]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="6" TAMANHO="8" TIPO="C">
+            <CAMPO><![CDATA[Dados_Disp.DTINI]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="7" TAMANHO="8" TIPO="C">
+            <CAMPO><![CDATA[Dados_Disp.DTINI]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="8" TAMANHO="8" TIPO="C">
+            <CAMPO><![CDATA[Dados_Disp.DT_ARQ]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="9" TAMANHO="1" TIPO="C">
+            <CAMPO><![CDATA[1]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="10" TAMANHO="118" TIPO="E">
+            <CAMPO><![CDATA['']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="11" TAMANHO="9" TIPO="E">
+            <CAMPO><![CDATA['imsbrpro7']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="12" TAMANHO="2" TIPO="E">
+            <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+          </COLUNA>
+        </COLUNAS>
+        <LINHAS QUANTIDADE="2">
+          <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[DESCRIÇÃO]]></TITULO>
+            <FILTRO><![CDATA[CAB.TIPMOV IN ('V','D')
+AND CAB.STATUSNFE = 'A'
+AND CAB.STATUSNOTA = 'L'
+AND CAB.CODEMP IN (1)
+AND CAB.CODPARC<>1
+AND to_char(cab.dtneg,'DDMMYYYY') = to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+            <COMSELECT><![CDATA[SELECT DISTINCT ITE.CODPROD,
+		   PRO.REFERENCIA,
+		   TRANSLATE(SUBSTR(PRO.DESCRPROD,1,70),
+                  '?????ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÏÖÑÝåáçéíóúàèìòùâêîôûãõëüïöñýÿ',
+                  'SZszYACEIOUAEIOUAEIOUAOEUIONYaaceiouaeiouaeiouaoeuionyy') AS DESCRPROD,
+		   TRANSLATE(PRO.MARCA,
+                  '?????ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÏÖÑÝåáçéíóúàèìòùâêîôûãõëüïöñýÿ',
+                  'SZszYACEIOUAEIOUAEIOUAOEUIONYaaceiouaeiouaeiouaoeuionyy') MARCA,
+		   ROUND(SNK_PRECO(99,PRO.CODPROD),2) AS TABFRABRICA,
+		   '000000103' AS CUSTO,
+		   GRU.DESCRGRUPOPROD,
+		   TO_CHAR(PRO.DTALTER,'DDMMYYYY') AS DTCAD
+	  FROM TGFCAB CAB
+	  JOIN TGFITE ITE ON ITE.NUNOTA=CAB.NUNOTA
+           JOIN TGFTOP TOP ON TOP.CODTIPOPER=CAB.CODTIPOPER AND TOP.DHALTER=CAB.DHTIPOPER
+	  JOIN TGFPRO PRO ON PRO.CODPROD=ITE.CODPROD
+	   JOIN TGFGRU GRU ON GRU.CODGRUPOPROD = NVL(PRO.CODGRUPOPROD-CAST(SUBSTR(TO_CHAR(PRO.CODGRUPOPROD),4,LENGTH(TO_CHAR(PRO.CODGRUPOPROD))) AS INT),0)]]></COMSELECT>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[8]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="1" TIPO="E">
+                <CAMPO><![CDATA['']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[0]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="13" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.CODPROD]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[0]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="6" TAMANHO="13" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.REFERENCIA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[1]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="8" TAMANHO="70" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.DESCRPROD]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="9" TAMANHO="8" TIPO="E">
+                <CAMPO><![CDATA['']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="10" TAMANHO="40" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.MARCA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="11" TAMANHO="9" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.CUSTO]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="12" TAMANHO="20" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.DESCRGRUPOPROD]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="13" TAMANHO="15" TIPO="E">
+                <CAMPO><![CDATA['']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="14" TAMANHO="8" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.SEQ_ARQ]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="15" TAMANHO="1" TIPO="E">
+                <CAMPO><![CDATA['P']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="16" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+          </LINHA>
+          <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[TRAILLER]]></TITULO>
+            <FILTRO><![CDATA[CAB.TIPMOV IN ('V','D')
+AND CAB.STATUSNFE = 'A'
+AND CAB.STATUSNOTA = 'L'
+AND CAB.CODEMP IN (1)
+AND CAB.CODPARC<>1
+AND TOP.GOLSINAL = -1
+AND to_char(cab.dtneg,'DDMMYYYY') =  to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+            <COMSELECT><![CDATA[select count(*) as totreg
+from TGFCAB CAB
+JOIN TGFITE ITE ON ITE.NUNOTA=CAB.NUNOTA
+JOIN TGFPRO PRO ON PRO.CODPROD=ITE.CODPROD
+JOIN TGFTOP TOP ON TOP.CODTIPOPER=CAB.CODTIPOPER AND TOP.DHALTER=CAB.DHTIPOPER
+JOIN TGFGRU GRU ON GRU.CODGRUPOPROD=PRO.codgrupoprod-cast(SUBSTR(TO_CHAR(PRO.CODGRUPOPROD),4,length(TO_CHAR(PRO.CODGRUPOPROD))) as int)]]></COMSELECT>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[9]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[0]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="4" TIPO="C">
+                <CAMPO><![CDATA[0181]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="8" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.TOTREG]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="179" TIPO="E">
+                <CAMPO><![CDATA['']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="6" TAMANHO="9" TIPO="E">
+                <CAMPO><![CDATA['imsbrpro9']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+          </LINHA>
+        </LINHAS>
+      </LINHA>
+      <LINHA ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="S" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+        <TITULO><![CDATA[VENDAS]]></TITULO>
+        <FILTRO><![CDATA[EMP.CODEMP = CAB.CODEMP
+AND TOP.CODTIPOPER = CAB.CODTIPOPER
+AND TOP.DHALTER = CAB.DHTIPOPER
+AND CAB.TIPMOV = 'V'
+AND CAB.STATUSNFE = 'A'
+AND STATUSNOTA = 'L'
+AND CAB.CODPARC<>1
+AND CAB.CODEMP IN (1)
+AND TOP.GOLSINAL = -1
+AND TO_CHAR(CAB.DTNEG,'DDMMYYYY') =  to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+        <NOMEARQ><![CDATA['V0181'+Dados_Disp.MESTITULO+'.'+Dados_Disp.DIAMES]]></NOMEARQ>
+        <COMSELECT><![CDATA[select distinct to_char(cab.dtneg,'DDMMYYYY') as dtini,  to_char(cab.dtneg,'DDMMYYYY') 
+ as dt_arq,
+substr(emp.RAZAOSOCIAL,1,30) as razaosocial,emp.CGC,
+'M'||lpad(extract(month from cab.dtneg),2,'0') as MESTITULO, 
+'D'||lpad(extract(DAY from cab.dtneg),2,'0') as diames
+from TGFCAB CAB,TSIEMP EMP, TGFTOP TOP]]></COMSELECT>
+        <COLUNAS>
+          <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+            <CAMPO><![CDATA[4]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="2" TAMANHO="1" TIPO="C">
+            <CAMPO><![CDATA[0]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="3" TAMANHO="4" TIPO="C">
+            <CAMPO><![CDATA[0181]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="4" TAMANHO="8" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.DTINI]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="5" TAMANHO="8" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.DTINI]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="6" TAMANHO="8" TIPO="E">
+            <CAMPO><![CDATA[Dados_Disp.DT_ARQ]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="7" TAMANHO="1" TIPO="E">
+            <CAMPO><![CDATA['D']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="8" TAMANHO="3" TIPO="E">
+            <CAMPO><![CDATA['']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="9" TAMANHO="9" TIPO="E">
+            <CAMPO><![CDATA['imsbrven4']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="10" TAMANHO="2" TIPO="E">
+            <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+          </COLUNA>
+        </COLUNAS>
+        <LINHAS QUANTIDADE="2">
+          <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[DESCRIÇÃO]]></TITULO>
+            <FILTRO><![CDATA[CAB.TIPMOV IN ('V','D')
+AND CAB.STATUSNFE = 'A'
+AND CAB.STATUSNOTA = 'L'
+AND CAB.CODPARC<>1
+AND CAB.CODEMP IN (1)
+AND TOP.GOLSINAL = -1
+AND to_char(cab.dtneg,'DDMMYYYY') = to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+            <COMSELECT><![CDATA[select distinct extract(DAY from CAB.DTNEG) as DIAMOV, CAB.CODPARC,
+ITE.CODPROD,SUM(ITE.QTDNEG) as QTDNEG,CASE WHEN CAB.TIPMOV <> 'D' THEN 'N' ELSE CAB.TIPMOV END AS FLAG_VENDA
+from TGFCAB CAB
+JOIN TGFITE ITE ON ITE.NUNOTA=CAB.NUNOTA
+JOIN TSIEMP EMP ON EMP.CODEMP=CAB.CODEMP
+JOIN TGFPAR PAR ON PAR.CODPARC=CAB.CODPARC
+JOIN TGFTOP TOP ON TOP.CODTIPOPER=CAB.CODTIPOPER AND TOP.DHALTER=CAB.DHTIPOPER]]></COMSELECT>
+            <COMGROUPBY><![CDATA[extract(DAY from cab.dtneg),CAB.CODPARC,ITE.CODPROD,CASE WHEN CAB.TIPMOV <> 'D' THEN 'N' ELSE CAB.TIPMOV END]]></COMGROUPBY>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[5]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="2" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.DIAMOV]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="14" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.CODPARC]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[1]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[0]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="6" TAMANHO="13" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.CODPROD]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[1]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="8" TAMANHO="1" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.FLAG_VENDA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="9" TAMANHO="8" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.QTDNEG]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="10" TAMANHO="1" TIPO="E">
+                <CAMPO><![CDATA['V']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="11" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+          </LINHA>
+          <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[TRAILLER]]></TITULO>
+            <FILTRO><![CDATA[CAB.TIPMOV IN ('V', 'D')
+AND CAB.STATUSNFE = 'A'
+AND CAB.STATUSNOTA = 'L'
+AND CAB.CODPARC<>1
+AND CAB.CODEMP IN (1)
+AND TOP.GOLSINAL = -1
+AND to_char(cab.dtneg,'DDMMYYYY') = to_char(sysdate, 'DDMMYYYY')]]></FILTRO>
+            <COMSELECT><![CDATA[SELECT COUNT(*) + 2 AS TOTREG,
+		   ROUND(SUM(CASE WHEN CAB.TIPMOV = 'V' THEN ITE.QTDNEG ELSE 0 END),0) AS TOTSUM,
+		   ROUND(SUM(CASE WHEN CAB.TIPMOV = 'D' AND EXISTS (SELECT COUNT(*) 
+												  FROM TGFVAR V,TGFCAB C 
+												 WHERE C.NUNOTA=V.NUNOTAORIG 
+												   AND C.STATUSNFE = 'A' 
+												   AND V.NUNOTA = CAB.NUNOTA) THEN ITE.QTDNEG ELSE 0 END), 0) AS TOTDEV
+FROM TGFCAB CAB
+JOIN TGFITE ITE ON ITE.NUNOTA=CAB.NUNOTA
+JOIN TGFTOP TOP ON TOP.CODTIPOPER=CAB.CODTIPOPER AND TOP.DHALTER=CAB.DHTIPOPER]]></COMSELECT>
+            <COMGROUPBY><![CDATA[TO_CHAR(CAB.DTNEG,'DDMMYYYY')]]></COMGROUPBY>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[6]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="1" TIPO="C">
+                <CAMPO><![CDATA[0]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="4" TIPO="C">
+                <CAMPO><![CDATA[0181]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="8" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.TOTREG]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="10" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.TOTSUM]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="6" TAMANHO="10" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.TOTDEV]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="9" TIPO="E">
+                <CAMPO><![CDATA['imsbrven6']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="8" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+          </LINHA>
+        </LINHAS>
+      </LINHA>
+    </LINHAS>
+  </LAYOUT>
+</LAYOUTS>
+

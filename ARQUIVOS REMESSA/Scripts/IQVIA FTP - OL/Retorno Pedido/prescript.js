@@ -1,0 +1,1 @@
+log("Aqui se iniciou o Pré Processamento arquivo RETORNO IQVIA OL.");

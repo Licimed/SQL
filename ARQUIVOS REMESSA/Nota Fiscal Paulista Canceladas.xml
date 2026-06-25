@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<LAYOUTS MODULO="C" QUANTIDADE="1" TIPO="Remessa">
+  <LAYOUT PROFUNDIDADE="2" ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+    <TITULO><![CDATA[Nota Fiscal Paulista Canceladas]]></TITULO>
+    <NOMEARQ><![CDATA['CANCEL300609.TXT']]></NOMEARQ>
+    <LINHAS QUANTIDADE="3">
+      <LINHA TAMANHO="500" ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+        <TITULO><![CDATA[CABECALHO REG 10 CAN]]></TITULO>
+        <FILTRO><![CDATA[[DATA INICIO] IS NOT NULL
+AND [DATA FINAL] IS NOT NULL]]></FILTRO>
+        <COMSELECT><![CDATA[SELECT SYSDATE FROM DUAL]]></COMSELECT>
+        <COLUNAS>
+          <COLUNA SEQUENCIA="-2" TAMANHO="0" TIPO="G">
+            <CAMPO><![CDATA[MEMSETVAR('T20',0)]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="1" TAMANHO="10" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['0000000000']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="2" TAMANHO="3" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['10|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="5" TAMANHO="4" TIPO="A" QTDDEC="0">
+            <CAMPO><![CDATA['1,00']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="6" TAMANHO="1" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="8" TAMANHO="14" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['06032995000159']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="9" TAMANHO="1" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="10" TAMANHO="6" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA[COPY(Variavel(0),1,6)]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="11" TAMANHO="4" TIPO="C" QTDDEC="0">
+            <CAMPO><![CDATA[COPY(Variavel(0),7,4)]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="12" TAMANHO="1" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="15" TAMANHO="6" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA[COPY(Variavel(1),1,6)]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="16" TAMANHO="4" TIPO="C" QTDDEC="0">
+            <CAMPO><![CDATA[COPY(Variavel(1),7,4)]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="99" TAMANHO="2" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+          </COLUNA>
+        </COLUNAS>
+      </LINHA>
+      <LINHA TAMANHO="500" ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+        <TITULO><![CDATA[IDENTIFICADOR REG20 CAN]]></TITULO>
+        <FILTRO><![CDATA[(TRUNC(:DTFATUR:) >= ?)  .E.
+(TRUNC(:DTFATUR:) <= ?)]]></FILTRO>
+        <COMSELECT><![CDATA[SELECT * FROM VCAB
+WHERE FUNCAO <> 'I']]></COMSELECT>
+        <COLUNAS>
+          <COLUNA SEQUENCIA="-2" TAMANHO="0" TIPO="G">
+            <CAMPO><![CDATA[MEMINCVAR('T20',1)]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="0" TAMANHO="10" TIPO="C" QTDDEC="0">
+            <CAMPO><![CDATA[Dados_Disp.SEQ]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="2" TAMANHO="3" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['20|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="8" TAMANHO="400" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA[Dados_Disp.FUNCAO + '|' + Dados_Disp.MOTCANCEL + '|' + Dados_Disp.DESCRCFO + '|' + '0'+ '|' + Dados_Disp.NUMNOTA + '|' + Dados_Disp.DT_FATUR + '|' + Dados_Disp.DTENTSAI + '|' + Dados_Disp.TIPONF + '|' + Dados_Disp.CODCFO + '|||'  + Dados_Disp.CGC_CPF + '|' + Dados_Disp.NOMEPARC + '|' + Dados_Disp.NOMEEND + '|' + Dados_Disp.NUMEND + '|' + Dados_Disp.COMPLEMENTO + '|' + Dados_Disp.NOMEBAI + '|' + Dados_Disp.NOMECID + '|' + Dados_Disp.UF + '|||||']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="99" TAMANHO="2" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+          </COLUNA>
+        </COLUNAS>
+      </LINHA>
+      <LINHA TAMANHO="200" ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+        <TITULO><![CDATA[RODAPE REG 90 CAN]]></TITULO>
+        <COMSELECT><![CDATA[SELECT SYSDATE FROM DUAL]]></COMSELECT>
+        <COLUNAS>
+          <COLUNA SEQUENCIA="0" TAMANHO="10" TIPO="C" QTDDEC="0">
+            <CAMPO><![CDATA[9999999999]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="5" TAMANHO="3" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['90|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="8" TAMANHO="5" TIPO="C" QTDDEC="0">
+            <CAMPO><![CDATA[MEMGETVAR('T20')]]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="10" TAMANHO="1" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="12" TAMANHO="5" TIPO="C" QTDDEC="0">
+            <CAMPO><![CDATA['00000']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="14" TAMANHO="1" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="16" TAMANHO="5" TIPO="C" QTDDEC="0">
+            <CAMPO><![CDATA['00000']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="18" TAMANHO="1" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['|']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="20" TAMANHO="5" TIPO="C" QTDDEC="0">
+            <CAMPO><![CDATA['00000']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="22" TAMANHO="6" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA['|00000']]></CAMPO>
+          </COLUNA>
+          <COLUNA SEQUENCIA="99" TAMANHO="2" TIPO="E" QTDDEC="0">
+            <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+          </COLUNA>
+        </COLUNAS>
+      </LINHA>
+    </LINHAS>
+  </LAYOUT>
+</LAYOUTS>
+

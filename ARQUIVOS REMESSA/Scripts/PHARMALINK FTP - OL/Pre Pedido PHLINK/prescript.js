@@ -1,0 +1,1 @@
+log("*PRE-*PHA*IN* Aqui se iniciou o Pré Processamento na Recepcao do Pedido.");

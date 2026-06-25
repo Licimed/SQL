@@ -1,0 +1,1 @@
+log("Pre processamento createGroupedCancellation");

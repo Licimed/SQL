@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<LAYOUTS MODULO="C" QUANTIDADE="1" TIPO="Remessa">
+  <LAYOUT PROFUNDIDADE="4" ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+    <TITULO><![CDATA[PHARMALINK]]></TITULO>
+    <LINHAS QUANTIDADE="1">
+      <LINHA ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+        <TITULO><![CDATA[LAYOUT ACHE]]></TITULO>
+        <LINHAS QUANTIDADE="3">
+          <LINHA ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[RESPOSTA PEDIDO VENDA ACHE]]></TITULO>
+            <FILTRO><![CDATA[AD_SIGLAOL = 'ACH'
+AND ROWNUM = 1
+AND NVL( CAB.AD_STATUSOL, 'S') = 'Aceito'
+AND CAB.CODTIPOPER IN  (1010,1030) 
+AND CAB.TIPMOV = 'P'
+AND CAB.STATUSNOTA = 'L']]></FILTRO>
+            <NOMEARQ><![CDATA['ACH'+Dados_Disp.EMPCGC+'P'+Dados_Disp.AD_NROPEDPHARMA+'D'+Dados_Disp.DTARQ+'.RET']]></NOMEARQ>
+            <COMSELECT><![CDATA[SELECT
+  '01' AS REG,
+  PAR.CGC_CPF AS PARCGC,
+  COALESCE( AD_CNPJENTREGA,  PAR.CGC_CPF ) DESCGC,
+  EMP.CGC AS EMPCGC,
+  CAB.NUNOTA,
+  to_char(SYSDATE,'YYYYMMDDHH24MISS') as DTARQ,
+  COALESCE(CAB.AD_NROPEDOL,'00000') AS AD_NROPEDPHARMA,
+  TO_CHAR(SYSDATE,'DDMMYYYY') AS DTTITULO,
+  TO_CHAR(SYSDATE,'HH24MI') AS HRTITULO
+FROM TGFCAB CAB
+  JOIN TGFPAR PAR ON PAR.CODPARC = CAB.CODPARC
+  JOIN TSIEMP EMP ON EMP.CODEMP = CAB.CODEMP
+  JOIN TGFEMP CEMP ON CEMP.CODEMP=CAB.CODEMP]]></COMSELECT>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.REG]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="3" TIPO="F">
+                <CAMPO><![CDATA['32']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="14" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.PARCGC]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="14" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.DESCGC]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="6" TIPO="E">
+                <CAMPO><![CDATA['ENTIRE']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="4" TIPO="E">
+                <CAMPO><![CDATA['ACH']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="10" TAMANHO="29" TIPO="F">
+                <CAMPO><![CDATA[0]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="11" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+            <LINHAS QUANTIDADE="4">
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[NUMEROS DO PEDIDO RESPOSTA]]></TITULO>
+                <FILTRO><![CDATA[CAB.NUNOTA = [NUNOTA]]]></FILTRO>
+                <COMSELECT><![CDATA[SELECT
+  '02' AS REG,
+  PAR.CGC_CPF AS PAR_CGC,
+  EMP.CGC,
+  CAB.NUNOTA, 
+  AD_NROPEDCOMPRADOR NUMPEDCLI , 
+  COALESCE(CAB.AD_NROPEDOL,'') AS AD_NROPEDPHARMA
+FROM TGFCAB CAB
+      INNER JOIN TGFPAR PAR ON PAR.CODPARC = CAB.CODPARC
+      INNER JOIN TSIEMP EMP ON EMP.CODEMP = CAB.CODEMP]]></COMSELECT>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="F">
+                    <CAMPO><![CDATA['02']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="3" TIPO="F">
+                    <CAMPO><![CDATA[0]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="10" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.AD_NROPEDPHARMA]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="4" TAMANHO="15" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.NUMPEDCLI]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="14" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.CGC]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="6" TAMANHO="28" TIPO="F">
+                    <CAMPO><![CDATA['0']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="8" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[DATAS DO PEDIDO RESPOSTA]]></TITULO>
+                <FILTRO><![CDATA[CAB.NUNOTA = [NUNOTA]
+AND CAB.AD_SIGLAOL = 'ACH']]></FILTRO>
+                <COMSELECT><![CDATA[SELECT
+  TO_CHAR(SYSDATE,'DDMMYYYY') AS DTGERRETORNO,
+  TO_CHAR(SYSDATE,'HH24MI') AS HRGERRETORNO,
+  TO_CHAR(CAB.DTNEG,'DDMMYYYY') AS DTNEG,
+  TO_CHAR(NVL(CAB.DTFATUR,SYSDATE),'HHMI') AS HRNEG,
+  TO_CHAR(NVL(CAB.DTPREVENT,CAB.DTNEG),'DDMMYYYY') as DTPREVFATUR
+FROM TGFCAB CAB
+  JOIN TGFEMP CEMP ON CEMP.CODEMP=CAB.CODEMP]]></COMSELECT>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="F">
+                    <CAMPO><![CDATA['03']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="8" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.DTGERRETORNO]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="4" TIPO="F">
+                    <CAMPO><![CDATA[REPLACESTRING(Dados_Disp.HRGERRETORNO,':','')]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="4" TAMANHO="8" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.DTNEG]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="4" TIPO="F">
+                    <CAMPO><![CDATA[REPLACESTRING(Dados_Disp.HRNEG,':','')]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="6" TAMANHO="8" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.DTPREVFATUR]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="7" TAMANHO="38" TIPO="F">
+                    <CAMPO><![CDATA['']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="8" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[ITENS DO PEDIDO RESPOSTA]]></TITULO>
+                <FILTRO><![CDATA[NUNOTA = [NUNOTA]]]></FILTRO>
+                <COMSELECT><![CDATA[SELECT 
+    NUNOTA,
+    REFERENCIA,
+    CODPROD,
+    SUM(QTDNEG) AS QTDNEG,
+    SUM(QTDCORTE) AS QTDCORTE,
+    CODVOL,
+    MOTIVORECUSA,
+    STATUSITEM
+FROM (
+        SELECT 
+        CAB.NUNOTA,
+        PRO.REFERENCIA,
+        TO_CHAR(ITE.CODPROD) AS CODPROD,
+        TO_CHAR(ITE.QTDNEG - ITE.QTDCONFERIDA) AS QTDNEG,
+        TO_CHAR(ITE.QTDCONFERIDA) AS QTDCORTE,
+        ITE.CODVOL,
+        CASE 
+            WHEN ITE.QTDNEG > (ITE.QTDNEG - ITE.QTDCONFERIDA) 
+                 AND (ITE.QTDNEG - ITE.QTDCONFERIDA) > 0 THEN '07'
+            WHEN ITE.QTDNEG > (ITE.QTDNEG - ITE.QTDCONFERIDA) 
+                 AND (ITE.QTDNEG - ITE.QTDCONFERIDA) = 0 THEN '06'
+            ELSE '00' 
+        END AS MOTIVORECUSA,
+        CASE 
+            WHEN ITE.QTDNEG > (ITE.QTDNEG - ITE.QTDCONFERIDA) 
+                 AND (ITE.QTDNEG - ITE.QTDCONFERIDA) > 0 THEN '02'
+            WHEN ITE.QTDNEG > (ITE.QTDNEG - ITE.QTDCONFERIDA) 
+                 AND (ITE.QTDNEG - ITE.QTDCONFERIDA) = 0 THEN '03'
+            ELSE '01' 
+        END AS STATUSITEM
+    FROM TGFITE ITE
+    JOIN TGFPRO PRO   ON PRO.CODPROD = ITE.CODPROD
+    JOIN TGFCAB CAB   ON CAB.NUNOTA = ITE.NUNOTA
+    JOIN TGFEMP CEMP  ON CEMP.CODEMP = CAB.CODEMP
+
+    UNION ALL
+
+    SELECT
+        CAB.NUNOTA,
+        REC.REFERENCIA,
+        '0'     AS CODPROD,
+        '0'     AS QTDNEG,
+        TO_CHAR(REC.QTDNEG) AS QTDCORTE,
+        'UN'    AS CODVOL,
+        '06'    AS MOTIVORECUSA,
+        '03'    AS STATUSITEM
+    FROM TGFCAB CAB
+    JOIN AD_PRORECINT REC ON REC.NUNOTA = CAB.NUNOTA
+)]]></COMSELECT>
+                <COMGROUPBY><![CDATA[NUNOTA,REFERENCIA,CODPROD,CODVOL,MOTIVORECUSA,STATUSITEM]]></COMGROUPBY>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="F">
+                    <CAMPO><![CDATA['04']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="14" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.REFERENCIA]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="14" TIPO="F">
+                    <CAMPO><![CDATA['']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="4" TAMANHO="14" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.CODPROD]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="10" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.QTDNEG]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="6" TAMANHO="10" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.QTDCORTE]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="7" TAMANHO="3" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.CODVOL]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="8" TAMANHO="3" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.MOTIVORECUSA]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="9" TAMANHO="2" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.STATUSITEM]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="10" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[TOTAIS DO PEDIDO RESPOSTA]]></TITULO>
+                <FILTRO><![CDATA[CAB.NUNOTA = [NUNOTA]]]></FILTRO>
+                <COMSELECT><![CDATA[SELECT
+  COUNT(ITE.SEQUENCIA) AS QTDLINHAS,
+  REPLACE(SUM(ITE.QTDNEG) - SUM(ITE.QTDCONFERIDA),'.','') AS SOMAUNIDATEND,
+  REPLACE(TO_CHAR(SUM(ITE.QTDCONFERIDA) + NVL(REC.QTDRECUSADA, 0)),'.','') AS SOMAUNIDCORTE
+FROM TGFITE ITE
+  JOIN TGFCAB CAB ON CAB.NUNOTA = ITE.NUNOTA
+  JOIN TGFEMP CEMP ON CEMP.CODEMP=CAB.CODEMP
+  LEFT JOIN (SELECT SUM(QTDNEG) AS QTDRECUSADA, NUNOTA FROM AD_PRORECINT GROUP BY NUNOTA) REC ON REC.NUNOTA = CAB.NUNOTA]]></COMSELECT>
+                <COMGROUPBY><![CDATA[REC.QTDRECUSADA]]></COMGROUPBY>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="F">
+                    <CAMPO><![CDATA['05']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="5" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.QTDLINHAS]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="15" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.SOMAUNIDATEND]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="35" TIPO="F">
+                    <CAMPO><![CDATA['']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="6" TAMANHO="15" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.SOMAUNIDCORTE]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="7" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+            </LINHAS>
+          </LINHA>
+          <LINHA TAMANHO="151" ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[RESPOSTA NOTA FISCAL ACHE]]></TITULO>
+            <FILTRO><![CDATA[CAB.STATUSNOTA = 'L' 
+AND CAB.CODTIPOPER IN (1100,1131)
+AND NVL(CAB.AD_STATUSOL,'') IN ('PedEnviado', 'Concluido')
+AND CAB.AD_SIGLAOL = 'ACH'
+AND ROWNUM = 1]]></FILTRO>
+            <NOMEARQ><![CDATA['ACH'+Dados_Disp.CGC+Dados_Disp.DTHRARQ+'.NOT']]></NOMEARQ>
+            <COMSELECT><![CDATA[SELECT
+  '01' AS REG,
+  PAR.CGC_CPF AS PAR_CGC,
+  EMP.CGC,
+  CAB.NUNOTA,  
+  CAB.NUMNOTA,  
+  CAB.SERIENOTA,
+ CASE WHEN CAB.TIPMOV =  'V' THEN  '1' 	 
+			 WHEN CAB.TIPMOV <> 'V' THEN ' ' 
+		END TIPONF,
+  CAB.CHAVENFE,
+  COALESCE( AD_CNPJENTREGA,  PAR.CGC_CPF ) AD_CNPJENTREGA, 
+  COALESCE( AD_VERLAYOUT , '32') AS LAYOUTPHARMA , 
+  COALESCE(CAB.AD_NROPEDOL,'') AS AD_NROPEDPHARMA,
+  CAB.AD_NROPEDCOMPRADOR,
+  to_char(sysdate,'YYYYMMDDHH24MISS') as DTHRARQ
+FROM TGFCAB CAB
+  INNER JOIN TGFPAR PAR ON PAR.CODPARC = CAB.CODPARC
+  INNER JOIN TSIEMP EMP ON EMP.CODEMP = CAB.CODEMP]]></COMSELECT>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.REG]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="3" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.LAYOUTPHARMA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="9" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.NUMNOTA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="3" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.SERIENOTA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="2" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.TIPONF]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="6" TAMANHO="4" TIPO="F">
+                <CAMPO><![CDATA['0']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="2" TIPO="C">
+                <CAMPO><![CDATA[1]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="8" TAMANHO="14" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.PAR_CGC]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="9" TAMANHO="14" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.AD_CNPJENTREGA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="10" TAMANHO="14" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.CGC]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="11" TAMANHO="4" TIPO="F">
+                <CAMPO><![CDATA['ACH']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="12" TAMANHO="3" TIPO="F">
+                <CAMPO><![CDATA['0']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="13" TAMANHO="10" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.AD_NROPEDPHARMA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="14" TAMANHO="15" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.AD_NROPEDCOMPRADOR]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="15" TAMANHO="50" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.CHAVENFE]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="16" TAMANHO="2" TIPO="F">
+                <CAMPO><![CDATA['0']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="17" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+            <LINHAS QUANTIDADE="3">
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[DATAS DA NOTA]]></TITULO>
+                <FILTRO><![CDATA[CAB.NUNOTA = [NUNOTA]]]></FILTRO>
+                <COMSELECT><![CDATA[SELECT '02' AS REG,
+ TO_CHAR(CAB.DTENTSAI,'DDMMYYYY') as DTVENC,
+ TO_CHAR(CAB.DTFATUR,'DDMMYYYY') as DTFATUR,
+ TO_CHAR(CAB.DTFATUR,'HH24MISS') AS HDFATUR,
+ TO_CHAR(CAB.DHPROTOC,'DDMMYYYY') AS DTAPROV,
+ TO_CHAR(CAB.DHPROTOC,'HH24MISS') AS HRAPROV,
+ TO_CHAR(COUNT(ITE.CODPROD)) AS SUMTOTALLINHAS,
+ to_char(0) as TOTDESC,
+ REPLACE(TO_CHAR(CAB.VLRNOTA),',') AS VLRNOTA
+FROM TGFCAB CAB
+JOIN TGFITE ITE ON ITE.NUNOTA=CAB.NUNOTA]]></COMSELECT>
+                <COMGROUPBY><![CDATA[CAB.VLRNOTA,CAB.DTENTSAI,CAB.DTFATUR,CAB.DHPROTOC]]></COMGROUPBY>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.REG]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="8" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.DTFATUR]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="8" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.DTFATUR]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="4" TAMANHO="4" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.HDFATUR]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="8" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.DTVENC]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="6" TAMANHO="4" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.HDFATUR]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="7" TAMANHO="8" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.DTAPROV]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="8" TAMANHO="4" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.HRAPROV]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="9" TAMANHO="8" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.SUMTOTALLINHAS]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="10" TAMANHO="8" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.TOTDESC]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="11" TAMANHO="8" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.VLRNOTA]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="12" TAMANHO="81" TIPO="F">
+                    <CAMPO><![CDATA['0']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="13" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[ITENS DA NOTA]]></TITULO>
+                <FILTRO><![CDATA[ITE.NUNOTA = [NUNOTA]]]></FILTRO>
+                <COMSELECT><![CDATA[SELECT  '03' AS REG, PRO.REFERENCIA
+     , PRO.CODPROD CODDIST
+     , ITE.AD_EANOL CODPLK
+     , SUM(ITE.QTDNEG) AS QTDNEG
+     , ITE.CODVOL 
+     , SUM(IT.VLRUNIT) AS VALORLIQ
+     , SUM(IT.PERCDESC) AS PERCDESC
+     , SUM(IT.VLRDESC) AS VLRDESC
+     , SUM((ITE.VLRTOT - ITE.VLRDESC)/ITE.QTDNEG) AS VLRUNIT
+     , CASE WHEN (PRO.CODVOL = ITE.CODVOL) THEN SUM(ITE.QTDNEG)
+            ELSE (CASE WHEN VOA.DIVIDEMULTIPLICA = 'D' THEN SUM(ITE.QTDNEG * QUANTIDADE) ELSE SUM(ITE.QTDNEG / QUANTIDADE) END)
+       END AS FRACIONAMENTO,
+        SUM(round((ITE.VLRDESC / ITE.QTDNEG) + ITE.VLRUNIT,2)) VALORBRUTOUNIT, 
+		SUM(round(ITE.VLRDESC / ITE.QTDNEG,2)) VALORDESCUNIT ,
+SUM(round(((ITE.VLRDESC / ITE.QTDNEG) + ITE.VLRUNIT) * ITE.QTDNEG,2)) VALORBRUTOLINHA,
+SUM(ITE.VLRTOT)  VALORTOT
+  FROM TGFITE ITE
+  INNER JOIN TGFPRO PRO ON PRO.CODPROD = ITE.CODPROD
+  INNER JOIN TGFVAR VR ON VR.NUNOTA = ITE.NUNOTA AND VR.SEQUENCIA = ITE.SEQUENCIA
+  INNER JOIN TGFITE IT ON IT.NUNOTA = VR.NUNOTAORIG AND IT.SEQUENCIA = VR.SEQUENCIAORIG
+   LEFT JOIN TGFVOA VOA ON VOA.CODPROD = PRO.CODPROD AND VOA.CODVOL = PRO.CODVOL]]></COMSELECT>
+                <COMGROUPBY><![CDATA[PRO.REFERENCIA
+     , PRO.CODPROD
+     , ITE.AD_EANOL
+     , PRO.CODVOL,
+     ITE.CODVOL,VOA.DIVIDEMULTIPLICA]]></COMGROUPBY>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="C" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.REG]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="14" TIPO="F" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.REFERENCIA]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="14" TIPO="F" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.CODPLK]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="4" TAMANHO="14" TIPO="F" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.CODDIST]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="10" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.QTDNEG]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="6" TAMANHO="3" TIPO="E" QTDDEC="0">
+                    <CAMPO><![CDATA['   ']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="7" TAMANHO="5" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.PERCDESC]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="8" TAMANHO="5" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[0]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="9" TAMANHO="5" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.PERCDESC]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="10" TAMANHO="8" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.VALORBRUTOUNIT]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="11" TAMANHO="8" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.VALORDESCUNIT]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="12" TAMANHO="8" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.VALORLIQ]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="13" TAMANHO="8" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.VALORBRUTOLINHA]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="14" TAMANHO="8" TIPO="A" QTDDEC="0">
+                    <CAMPO><![CDATA[Dados_Disp.VALORTOT]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="15" TAMANHO="3" TIPO="E" QTDDEC="0">
+                    <CAMPO><![CDATA['   ']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="16" TAMANHO="36" TIPO="C" QTDDEC="0">
+                    <CAMPO><![CDATA[0]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="17" TIPO="E" QTDDEC="0">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[TOTAIS DA NOTA]]></TITULO>
+                <FILTRO><![CDATA[ITE.NUNOTA = [NUNOTA]]]></FILTRO>
+                <COMSELECT><![CDATA[SELECT '04' as REG,
+ COUNT(ITE.CODPROD) AS SUMTOTALLINHAS,
+ TO_CHAR(SUM(ITE.QTDNEG), 'FM999999V90') AS QTDNEGTOT
+FROM TGFITE ITE
+JOIN TGFPRO PRO ON PRO.CODPROD=ITE.CODPROD]]></COMSELECT>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[Dados_Disp.REG]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="5" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.SUMTOTALLINHAS]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="15" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.QTDNEGTOT]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="4" TAMANHO="129" TIPO="F">
+                    <CAMPO><![CDATA['0']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+            </LINHAS>
+          </LINHA>
+          <LINHA ANALITICO="N" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+            <TITULO><![CDATA[REPOSTA CANCELAMENTO ACHE]]></TITULO>
+            <FILTRO><![CDATA[CAN.STATUSINTEGRACAO = 'P' AND CAN.NROPEDOL IS NOT NULL AND CAN.SIGLAOL = 'ACH' AND ROWNUM = 1]]></FILTRO>
+            <NOMEARQ><![CDATA['ACH'+Dados_Disp.CGC+Dados_Disp.DTHRARQ+'.CAN']]></NOMEARQ>
+            <COMSELECT><![CDATA[SELECT DISTINCT '1' AS REG, CAN.NUNOTA, to_char(sysdate,'YYYYMMDDHH24MI') DTHRARQ, PAR.CGC_CPF, EMP.CGC, CAN.NROPEDOL AS NROPEDPHARMA,'ACH' AS CODPRODJETO 
+FROM AD_TGFCAN CAN JOIN AD_TGFITECAN ITE ON (ITE.NUNOTA = CAN.NUNOTA) 
+JOIN TGFPAR PAR ON (PAR.CODPARC = CAN.CODPARC) 
+JOIN TSIEMP EMP ON (EMP.CODEMP = CAN.CODEMP) 
+JOIN TGFEMP CEMP ON (CEMP.CODEMP = CAN.CODEMP)]]></COMSELECT>
+            <COLUNAS>
+              <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.REG]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="2" TAMANHO="3" TIPO="F">
+                <CAMPO><![CDATA['32']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="3" TAMANHO="12" TIPO="E">
+                <CAMPO><![CDATA[Dados_Disp.DTHRARQ]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="4" TAMANHO="14" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.CGC_CPF]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="5" TAMANHO="14" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.CGC]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="6" TAMANHO="4" TIPO="F">
+                <CAMPO><![CDATA[Dados_Disp.CODPRODJETO]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="7" TAMANHO="10" TIPO="C">
+                <CAMPO><![CDATA[Dados_Disp.NROPEDPHARMA]]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="8" TAMANHO="4" TIPO="F">
+                <CAMPO><![CDATA['0']]></CAMPO>
+              </COLUNA>
+              <COLUNA SEQUENCIA="9" TAMANHO="2" TIPO="E">
+                <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+              </COLUNA>
+            </COLUNAS>
+            <LINHAS QUANTIDADE="2">
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[ITENS DO CANCELAMENTO]]></TITULO>
+                <FILTRO><![CDATA[ITE.NUNOTA = [NUNOTA]]]></FILTRO>
+                <COMSELECT><![CDATA[SELECT PRO.REFERENCIA,
+  TO_CHAR(SUM(ITE.QTDNEG)) AS QTDNEG,
+  TO_CHAR(NVL(MOT.NUCANCEL, 6)) AS NUCANCEL
+FROM AD_TGFCAN CAN
+JOIN AD_TGFITECAN ITE ON ITE.NUNOTA=CAN.NUNOTA
+JOIN TGFPRO PRO ON PRO.CODPROD=ITE.CODPROD
+LEFT JOIN AD_MOTCAN MOT ON (CASE WHEN ITE.NUCANCEL IS NOT NULL 
+THEN ITE.NUCANCEL ELSE CAN.NUCANCEL END) = MOT.NUCANCEL
+AND (CASE WHEN ITE.NUPLATAFORMA IS NOT NULL 
+THEN ITE.NUPLATAFORMA ELSE CAN.NUPLATAFORMA END) = MOT.NUPLATAFORMA]]></COMSELECT>
+                <COMGROUPBY><![CDATA[PRO.REFERENCIA,MOT.NUCANCEL]]></COMGROUPBY>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA['02']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="14" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.REFERENCIA]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="10" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.QTDNEG]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="4" TAMANHO="10" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.QTDNEG]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="3" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.NUCANCEL]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="6" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA['03']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="7" TAMANHO="22" TIPO="F">
+                    <CAMPO><![CDATA['0']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="8" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+              <LINHA ANALITICO="S" ORDENAR="N" FICHA="N" ARQPORLINHA="N" UTILIZASEQALT="N" UTILIZASEQINFO="N" INICARQREM="COB">
+                <TITULO><![CDATA[TOTAIS DO CANCELAMENTO]]></TITULO>
+                <FILTRO><![CDATA[ITE.NUNOTA = [NUNOTA]]]></FILTRO>
+                <COMSELECT><![CDATA[SELECT COUNT(ITE.CODPROD) AS SUMTOTALLINHAS,
+ TO_CHAR(SUM(ITE.QTDNEG), 'FM999999') AS QTDNEGTOT
+FROM AD_TGFCAN CAN
+JOIN AD_TGFITECAN ITE ON ITE.NUNOTA=CAN.NUNOTA]]></COMSELECT>
+                <COLUNAS>
+                  <COLUNA SEQUENCIA="1" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA['03']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="2" TAMANHO="5" TIPO="C">
+                    <CAMPO><![CDATA[Dados_Disp.SUMTOTALLINHAS]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="3" TAMANHO="15" TIPO="C">
+                    <CAMPO><![CDATA[0]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="4" TAMANHO="15" TIPO="F">
+                    <CAMPO><![CDATA[Dados_Disp.QTDNEGTOT]]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="5" TAMANHO="26" TIPO="F">
+                    <CAMPO><![CDATA['0']]></CAMPO>
+                  </COLUNA>
+                  <COLUNA SEQUENCIA="6" TAMANHO="2" TIPO="E">
+                    <CAMPO><![CDATA[FIMLINHA]]></CAMPO>
+                  </COLUNA>
+                </COLUNAS>
+              </LINHA>
+            </LINHAS>
+          </LINHA>
+        </LINHAS>
+      </LINHA>
+    </LINHAS>
+  </LAYOUT>
+</LAYOUTS>
+
